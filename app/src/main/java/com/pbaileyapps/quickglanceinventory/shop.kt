@@ -1,52 +1,71 @@
-package com.pbaileyapps.shoppingappclone
+package com.pbaileyapps.quickglanceinventory
 
 import android.content.Intent
-import android.graphics.drawable.Drawable
 import android.os.Bundle
 import android.view.*
-import android.widget.ImageView
-import android.widget.SearchView
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
-import androidx.navigation.Navigation
+import androidx.navigation.fragment.navArgs
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
-import com.google.android.material.floatingactionbutton.FloatingActionButton
-import com.pbaileyapps.shoppingappclone.data.ItemViewModel
+import com.google.firebase.auth.FirebaseAuth
+import com.pbaileyapps.quickglanceinventory.data.Item
+import com.pbaileyapps.quickglanceinventory.data.ItemViewModel
 
 
-class home : Fragment(), androidx.appcompat.widget.SearchView.OnQueryTextListener {
-
-
-lateinit var viewModel: ItemViewModel
-var searchView:androidx.appcompat.widget.SearchView? = null
-lateinit var recyclerViewAdapter: CustomRecyclerViewAdapter
+class shop : Fragment(), androidx.appcompat.widget.SearchView.OnQueryTextListener {
+    val args:shopArgs by navArgs()
+    lateinit var auth: FirebaseAuth
+    lateinit var viewModel: ItemViewModel
+    lateinit var destination:String
+    lateinit var recyclerViewAdapter: CustomRecyclerViewAdapter
+    var searchView:androidx.appcompat.widget.SearchView? = null
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
         viewModel = ViewModelProvider(this).get(ItemViewModel::class.java)
         // Inflate the layout for this fragment
-
-        val v = inflater.inflate(R.layout.fragment_home, container, false)
-        val recyclerView:RecyclerView = v.findViewById(R.id.recycler_view)
+        val v = inflater.inflate(R.layout.fragment_shop, container, false)
+        val recyclerView: RecyclerView = v.findViewById(R.id.low_recycler_view)
         val linearLayoutManager = LinearLayoutManager(context)
         linearLayoutManager.orientation = LinearLayoutManager.VERTICAL
         recyclerViewAdapter = CustomRecyclerViewAdapter(requireContext())
         recyclerView.adapter = recyclerViewAdapter
         recyclerView.layoutManager = linearLayoutManager
-        viewModel.readAllData.observe(viewLifecycleOwner, Observer { item->
-            recyclerViewAdapter.setData(item)
-        })
+        auth = FirebaseAuth.getInstance()
         setHasOptionsMenu(true)
+        if(auth.currentUser != null) {
+            viewModel.getAllItemsForUser(auth.currentUser?.uid!!)
+                .observe(viewLifecycleOwner, Observer { item ->
+                    var list = ArrayList<Item>()
+                    for (i in item) {
+                        if (i.needed > i.amount) {
+                            list.add(i)
+                        }
+                    }
+                    recyclerViewAdapter.setData(list)
+                })
+        }
+        else{
+            viewModel.readAllData
+                .observe(viewLifecycleOwner, Observer { item ->
+                    var list = ArrayList<Item>()
+                    for (i in item) {
+                        if (i.needed > i.amount) {
+                            list.add(i)
+                        }
+                    }
+                    recyclerViewAdapter.setData(list)
+                })
+        }
         return v
     }
-
     override fun onCreateOptionsMenu(menu: Menu, inflater: MenuInflater) {
         inflater.inflate(R.menu.search_menu,menu)
         super.onCreateOptionsMenu(menu, inflater)
-        val search = menu?.findItem(R.id.search_magnifying_glass)
+        val search = menu.findItem(R.id.search_magnifying_glass)
         searchView = search?.actionView as? androidx.appcompat.widget.SearchView
         searchView?.setOnQueryTextListener(this)
     }
@@ -56,7 +75,12 @@ lateinit var recyclerViewAdapter: CustomRecyclerViewAdapter
             startActivity(Intent(context,AddItem::class.java))
             return true
         }
-        else {
+        else if(item.itemId == R.id.logout) {
+            auth.signOut()
+            startActivity(Intent(context,SignInActivity::class.java))
+            return true
+        }
+        else{
             return true
         }
     }
@@ -66,7 +90,7 @@ lateinit var recyclerViewAdapter: CustomRecyclerViewAdapter
         if(query != null){
             viewModel.searchDatabase(dataStuff).observe(this, Observer { t ->
                 t.let{recyclerViewAdapter.setData(it)}
-              })
+            })
 
         }
         return true
@@ -82,4 +106,7 @@ lateinit var recyclerViewAdapter: CustomRecyclerViewAdapter
         }
         return true
     }
+
+
+
 }

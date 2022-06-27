@@ -1,4 +1,4 @@
-package com.pbaileyapps.shoppingappclone
+package com.pbaileyapps.quickglanceinventory
 
 import android.graphics.drawable.Drawable
 

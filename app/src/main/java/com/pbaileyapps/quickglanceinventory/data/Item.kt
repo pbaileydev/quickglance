@@ -1,8 +1,6 @@
-package com.pbaileyapps.shoppingappclone.data
+package com.pbaileyapps.quickglanceinventory.data
 
-import android.net.Uri
 import android.os.Parcelable
-import androidx.annotation.Nullable
 import androidx.room.Entity
 import androidx.room.PrimaryKey
 import kotlinx.android.parcel.Parcelize
@@ -16,6 +14,7 @@ class Item(
     val drawable:String?,
     val amount:Int,
     val needed:Int,
-    val sku:String?
+    val sku:String?,
+    val user:String?
 ) : Parcelable{
 }

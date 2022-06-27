@@ -1,17 +1,18 @@
-package com.pbaileyapps.shoppingappclone
+package com.pbaileyapps.quickglanceinventory
 
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.view.View
 import androidx.appcompat.widget.Toolbar
-import androidx.fragment.app.Fragment
 import androidx.navigation.findNavController
 import androidx.navigation.ui.AppBarConfiguration
 import androidx.navigation.ui.setupActionBarWithNavController
 import androidx.navigation.ui.setupWithNavController
 import com.google.android.material.bottomnavigation.BottomNavigationView
+import com.google.firebase.auth.FirebaseAuth
 
 class MainActivity : AppCompatActivity() {
+lateinit var firebaseAuth: FirebaseAuth
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -20,14 +21,15 @@ class MainActivity : AppCompatActivity() {
         setSupportActionBar(toolBar)
         val bottomNav = findViewById<BottomNavigationView>(R.id.bottomNavView)
         val navigationController = findNavController(R.id.fragmentContainerView)
-        val appBarConfiguration = AppBarConfiguration(navigationController.graph)
+        val appBarConfiguration = AppBarConfiguration(setOf(R.id.home2,R.id.shop))
         //Actually makes the bottom nav work.
         //This is all you really need.
+        firebaseAuth = FirebaseAuth.getInstance()
         bottomNav.setupWithNavController(navigationController)
         setupActionBarWithNavController(navigationController,appBarConfiguration)
         //This makes the actionbar use the names of our fragments from our nav graph in our nav controller
         val appBarConfig = AppBarConfiguration(navigationController.graph)
-        setupActionBarWithNavController(navigationController,appBarConfig)
+        setupActionBarWithNavController(navigationController,appBarConfiguration)
         window.decorView.setOnSystemUiVisibilityChangeListener { visibility ->
             // Note that system bars will only be "visible" if none of the
             // LOW_PROFILE, HIDE_NAVIGATION, or FULLSCREEN flags are set.
@@ -48,6 +50,11 @@ class MainActivity : AppCompatActivity() {
 
     }
 
+
+    override fun onBackPressed() {
+        super.onBackPressed()
+        firebaseAuth.signOut()
+    }
     override fun onSupportNavigateUp(): Boolean {
         val navController = findNavController(R.id.fragmentContainerView)
 

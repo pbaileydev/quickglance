@@ -6,7 +6,7 @@
         <item name="colorPrimaryVariant">#1976d2</item>
         <item name="colorOnPrimary">@color/white</item>
         <!-- Secondary brand color. -->
-        <item name="colorSecondary">@color/teal_200</item>
+        <item name="colorSecondary">@android:color/holo_blue_bright</item>
         <item name="colorSecondaryVariant">@color/teal_700</item>
         <item name="colorOnSecondary">@color/black</item>
         <!-- Status bar color. -->
@@ -16,5 +16,16 @@
     <style name="MyTextInputLayout" parent="Widget.MaterialComponents.TextInputLayout.OutlinedBox">
         <!-- border color -->
         <item name="boxStrokeColor">@android:color/holo_green_dark</item>
+    </style>
+    <style name="ClearEditText" parent="Widget.MaterialComponents.TextInputLayout.OutlinedBox">
+        <!-- border color -->
+        <item name="background">@android:color/transparent</item>
+        <item name="android:textColor">@android:color/black</item>
+        <item name="android:layout_margin">8dp
+        </item>
+    </style>
+    <style name="CustomButton">
+        <item name="android:textColor">@android:color/white</item>
+        <item name="android:background">@drawable/button_border</item>
     </style>
 </resources>

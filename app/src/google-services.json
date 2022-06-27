@@ -1,0 +1,39 @@
+{
+  "project_info": {
+    "project_number": "873568900705",
+    "project_id": "quickglanceinventory",
+    "storage_bucket": "quickglanceinventory.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:873568900705:android:2163f74827b78e5fb97c20",
+        "android_client_info": {
+          "package_name": "com.pbaileyapps.quickglanceinventory"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "873568900705-qa248ut2o5i4ch0dtp3rur8hb7d9205e.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyDx6AVi0XA7zQW7dVh51Err1_zp8vKqjpA"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "873568900705-qa248ut2o5i4ch0dtp3rur8hb7d9205e.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

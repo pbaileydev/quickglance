@@ -1,19 +1,15 @@
-package com.pbaileyapps.shoppingappclone
+package com.pbaileyapps.quickglanceinventory
 
 import android.Manifest
 import android.content.Context
-import android.content.SharedPreferences
 import android.content.pm.PackageManager
 import android.os.Bundle
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.ImageView
 import android.widget.Switch
 import androidx.core.content.ContextCompat
-import androidx.core.content.PermissionChecker
-import java.security.Permissions
 
 
 class settings : Fragment() {

@@ -1,9 +1,9 @@
-package com.pbaileyapps.shoppingappclone
+package com.pbaileyapps.quickglanceinventory
 
 import android.content.Context
 import android.content.Intent
+import android.content.pm.PackageManager
 import android.graphics.Color
-import android.graphics.drawable.Drawable
 import android.net.Uri
 import android.provider.MediaStore
 import android.view.LayoutInflater
@@ -13,10 +13,11 @@ import android.widget.ImageView
 import android.widget.TextView
 import androidx.appcompat.content.res.AppCompatResources
 import androidx.cardview.widget.CardView
-import androidx.navigation.Navigation
+import androidx.core.content.ContextCompat
+import androidx.core.text.isDigitsOnly
+import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.RecyclerView
-import com.google.android.material.drawable.DrawableUtils
-import com.pbaileyapps.shoppingappclone.data.Item
+import com.pbaileyapps.quickglanceinventory.data.Item
 
 class CustomRecyclerViewAdapter(private val context: Context) :
     RecyclerView.Adapter<CustomRecyclerViewAdapter.CustomVH>() {
@@ -26,7 +27,7 @@ class CustomRecyclerViewAdapter(private val context: Context) :
         val imageView: ImageView = view.findViewById(R.id.image_view)
         val quantityView:TextView = view.findViewById(R.id.quantity)
         val skuTextView:TextView = view.findViewById(R.id.skuTextView)
-        var cardView:CardView = view.findViewById(R.id.card_quantity)
+
     }
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): CustomVH {
         return CustomVH(LayoutInflater.from(parent.context).inflate(R.layout.horizontal_item,parent,false) )
@@ -39,28 +40,47 @@ class CustomRecyclerViewAdapter(private val context: Context) :
         var needed:Int = mList.get(position).needed
         var sku:String? = mList.get(position).sku
         if(drawable != null) {
+            if (ContextCompat.checkSelfPermission(
+                    context,
+                    android.Manifest.permission.READ_EXTERNAL_STORAGE
+                ) == PackageManager.PERMISSION_GRANTED
+            ) {
+                holder.imageView.setImageBitmap(
+                    MediaStore.Images.Media.getBitmap(
+                        context.contentResolver,
+                        Uri.parse(drawable)
+                    )
+                )
+                holder.imageView.rotation = 90f
+            }
+            else{
+                holder.imageView.setImageDrawable(AppCompatResources.getDrawable(context,R.drawable.ic_baseline_photo_24))
 
-            holder.imageView.setImageBitmap(MediaStore.Images.Media.getBitmap(context.contentResolver,Uri.parse(drawable)))
-
+            }
         }
+
         if(drawable == null){
             holder.imageView.setImageDrawable(AppCompatResources.getDrawable(context,R.drawable.ic_baseline_photo_24))
+
         }
         if(sku == null){
-            holder.skuTextView.setText("SKU: Unavailable")
+            holder.skuTextView.setText("UPC: Unavailable")
         }
         if(sku != null){
-            var text = "SKU:"+sku
+            var text = "UPC:"+sku
+            if(text.length > 16){
+                text = text.substring(0,14) +"..."
+            }
             holder.skuTextView.setText(text)
         }
         holder.textView.setText(text)
-        if(quantity>=needed){
-            holder.cardView.setCardBackgroundColor(Color.WHITE)
+        var qString = quantity.toString()
+        if(qString.length>3){
+            qString = qString.substring(0,3)
         }
-        else{
-            holder.cardView.setCardBackgroundColor(Color.WHITE)
-        }
-        holder.quantityView.setText(quantity.toString())
+        holder.quantityView.setText(
+            qString
+        )
         holder.itemView.setOnClickListener {
             val intent = Intent(context,UpdateActivity::class.java)
             intent.putExtra("ItemId",mList.get(position))
@@ -74,5 +94,8 @@ class CustomRecyclerViewAdapter(private val context: Context) :
         mList = list
         notifyDataSetChanged()
     }
+
+
+
 
 }

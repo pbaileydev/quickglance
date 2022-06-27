@@ -1,8 +1,7 @@
-package com.pbaileyapps.shoppingappclone.data
+package com.pbaileyapps.quickglanceinventory.data
 
 import androidx.lifecycle.LiveData
 import androidx.room.*
-import java.util.concurrent.Flow
 
 @Dao
 interface ItemsDao {
@@ -10,8 +9,10 @@ interface ItemsDao {
     fun insert(item: Item)
     @Update()
     fun update(item: Item)
-    @Query("Select * From Items ORDER BY id ASC")
+    @Query("Select * From Items Where user isnull ORDER BY id ASC")
     fun getAllItems(): LiveData<List<Item>>
+    @Query("Select * From Items WHERE :user Like user OR user IsNull ORDER BY id ASC")
+    fun getAllItemsForUser(user:String): LiveData<List<Item>>
     @Delete()
     fun deleteItem(item: Item)
     @Query("Delete From Items")

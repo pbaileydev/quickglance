@@ -18,12 +18,11 @@
         <androidx.constraintlayout.widget.ConstraintLayout
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:background="@color/white"
             android:orientation="vertical"
             >
 <FrameLayout
     android:layout_width="match_parent"
-    android:layout_height="100dp"
+    android:layout_height="110dp"
     android:id="@+id/update_frame"
     android:background="@drawable/item_color"
     app:layout_constraintEnd_toEndOf="parent"
@@ -33,11 +32,12 @@
                 android:id="@+id/update_image"
                 android:scaleType="centerCrop"
                 android:layout_marginStart="20dp"
+                android:background="@android:color/white"
                 android:layout_width="84dp"
                 android:layout_height="84dp"
                 android:layout_gravity="center_vertical"
                 android:layout_marginEnd="30dp"
-                android:src="@drawable/ic_launcher_foreground"
+                android:src="@drawable/ic_baseline_photo_24"
                 />
 
             <com.google.android.material.textfield.TextInputLayout
@@ -47,6 +47,13 @@
                 android:background="@android:color/transparent"
                 android:layout_gravity="end"
                 android:layout_marginEnd="20dp"
+                app:errorEnabled="true"
+                app:counterEnabled="true"
+                app:helperText="Required Field"
+                app:helperTextTextColor="@android:color/holo_red_light"
+                app:boxStrokeErrorColor="@android:color/holo_red_light"
+
+                app:counterMaxLength="10"
                 android:layout_height="wrap_content"
                 android:hint="Update Item"
                 android:layout_margin="15dp">
@@ -54,6 +61,7 @@
                 <com.google.android.material.textfield.TextInputEditText
                     android:id="@+id/update_item_text"
                     android:layout_width="match_parent"
+                    android:maxLength="10"
                     android:fontFamily="sans-serif-condensed-light"
                     android:background="@android:color/transparent"
                     android:layout_height="wrap_content"
@@ -67,6 +75,7 @@
                 style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
                 app:helperText="Required Field"
                 app:helperTextTextColor="@android:color/holo_red_light"
+                app:errorEnabled="true"
                 android:layout_marginTop="30dp"
                 android:hint="Quantity"
                 app:layout_constraintBottom_toBottomOf="parent"
@@ -78,6 +87,7 @@
                     android:id="@+id/update_quantity_text"
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
+                    android:inputType="number"
                     android:fontFamily="sans-serif-condensed-light"
                     />
             </com.google.android.material.textfield.TextInputLayout>
@@ -86,6 +96,7 @@
                 android:id="@+id/update_input_needed_layout"
                 android:layout_width="100dp"
                 android:layout_marginTop="30dp"
+                app:errorEnabled="true"
                 style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
                 app:helperText="Required Field"
                 app:helperTextTextColor="@android:color/holo_red_light"
@@ -100,7 +111,7 @@
                     android:id="@+id/update_needed_text"
                     android:layout_width="match_parent"
                     android:fontFamily="sans-serif-condensed-light"
-
+                    android:inputType="number"
                     android:layout_height="match_parent"
                      />
             </com.google.android.material.textfield.TextInputLayout>
@@ -126,7 +137,7 @@
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@+id/update_input_quantity_layout"
-                android:hint="SKU"
+                android:hint="UPC"
                 android:layout_marginTop="30dp">
 
                 <com.google.android.material.textfield.TextInputEditText
@@ -134,6 +145,7 @@
                     android:layout_width="match_parent"
                     android:fontFamily="sans-serif-condensed-light"
                     android:layout_height="wrap_content"
+                    android:inputType="number"
                      />
 
 
@@ -141,8 +153,8 @@
 
             <ImageButton
                 android:id="@+id/update_scanButton"
-                android:layout_width="50dp"
-                android:layout_height="60dp"
+                android:layout_width="45dp"
+                android:layout_height="45dp"
                 android:background="#0d47a1"
                 android:layout_marginStart="5dp"
                 app:srcCompat="@drawable/ic_baseline_document_scanner_24"

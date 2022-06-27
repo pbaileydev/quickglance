@@ -1,4 +1,4 @@
-package com.pbaileyapps.shoppingappclone.data
+package com.pbaileyapps.quickglanceinventory.data
 
 import android.app.Application
 import androidx.lifecycle.AndroidViewModel
@@ -37,5 +37,8 @@ class ItemViewModel(application: Application): AndroidViewModel(application) {
     }
     fun searchDatabase(query:String): LiveData<List<Item>>{
         return repository.search(query) as LiveData<List<Item>>
+    }
+    fun getAllItemsForUser(user:String):LiveData<List<Item>>{
+        return repository.getAllItemsForUser(user)
     }
 }

@@ -7,7 +7,7 @@
 
     <fragment
         android:id="@+id/home2"
-        android:name="com.pbaileyapps.shoppingappclone.home"
+        android:name="com.pbaileyapps.quickglanceinventory.home"
         android:label="Home"
         tools:layout="@layout/fragment_home" >
 
@@ -15,7 +15,7 @@
     </fragment>
     <fragment
         android:id="@+id/shop"
-        android:name="com.pbaileyapps.shoppingappclone.shop"
+        android:name="com.pbaileyapps.quickglanceinventory.shop"
         android:label="Low"
         tools:layout="@layout/fragment_shop" >
         <argument
